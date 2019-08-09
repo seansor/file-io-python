@@ -1,3 +1,6 @@
+import random
+import difflib
+
 def show_menu():
     print("1. Ask questions")
     print("2. Add a questions")
@@ -23,16 +26,22 @@ def ask_questions():
     questions_and_answers = zip(questions, answers)
     
     score = 0
-            
+    
     for question, answer in questions_and_answers:
-        guess = input(question + "> ")
+        guess = input(question + "\n> ")
         if guess == answer:
             score += 1
             print("Correct!")
             print(score)
-        else:
-            print("Incorrect!")
-            
+        else:    
+            if (sum([i[0] != ' '  for i in difflib.ndiff(guess, answer)]) / 2) <= 2:
+                    print(sum([i[0] != ' '  for i in difflib.ndiff(guess, answer)]))
+                    print("Spelled wrong, but right!")
+                    score += 1
+                    print(score)
+            else:
+                print("wrong!")
+        
     print("You got {0} correct out of {1}".format(score, number_of_questions))
     
 def add_question():
